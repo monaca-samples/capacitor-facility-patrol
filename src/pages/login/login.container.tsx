@@ -18,7 +18,7 @@ export const LoginContainer: FC = () => {
     const user = await login(email, password, rememberMe)
 
     if (user !== null) {
-      history.push('/')
+      history.replace('/')
     }
   }
 

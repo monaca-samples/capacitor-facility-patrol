@@ -14,7 +14,7 @@ export const PrivateRouteContainer: FC<RouteProps> = ({ component }) => {
     return <></>
   }
 
-  if (authState === AuthState.PENDING || loading) {
+  if (loading) {
     // While waiting for login resolution, render a loading indicator
     return (
       <IonPage>

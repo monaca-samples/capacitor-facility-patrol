@@ -35,7 +35,9 @@ export const FacilityDetailsContainer: FC = ({
       if (location) {
         setLocation(location)
         setIsLoading(false)
+        return
       } else {
+        setIsLoading(false)
         history.push('/') // redirect to map page if location does not exist
       }
     }

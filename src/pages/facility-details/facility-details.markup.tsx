@@ -140,36 +140,43 @@ export const FacilityDetails = ({
                   <span className="flex items-center gap-1">
                     <label className="label">Check up</label>
                     <IonIcon icon={ellipse} className="w-1" />
-                    <span className="text-gray-400 text-sm">Not Finished</span>
+                    {values.checkupBolts &&
+                    values.checkupMeasurement &&
+                    values.checkupCleaning ? (
+                      <span className="text-greenDefault text-sm">
+                        Finished
+                      </span>
+                    ) : (
+                      <span className="text-gray-400 text-sm">
+                        Not Finished
+                      </span>
+                    )}
                   </span>
-                  <div>
-                    <IonCheckbox
-                      checked={values.checkupBolts}
-                      labelPlacement="end"
-                      onIonChange={e =>
-                        setFieldValue('checkupBolts', e.target.checked)
-                      }
-                    >
+                  <div className="flex flex-col gap-2">
+                    <label className="flex items-center gap-2.5 label">
+                      <Field
+                        type="checkbox"
+                        name="checkupBolts"
+                        className="checkbox"
+                      />
                       Check for loose bolts completed
-                    </IonCheckbox>
-                    <IonCheckbox
-                      labelPlacement="end"
-                      checked={values.checkupMeasurement}
-                      onIonChange={e =>
-                        setFieldValue('checkupMeasurement', e.target.checked)
-                      }
-                    >
+                    </label>
+                    <label className="flex items-center gap-2.5 label">
+                      <Field
+                        type="checkbox"
+                        name="checkupMeasurement"
+                        className="checkbox"
+                      />
                       Voltage measurement completed
-                    </IonCheckbox>
-                    <IonCheckbox
-                      labelPlacement="end"
-                      checked={values.checkupCleaning}
-                      onIonChange={e =>
-                        setFieldValue('checkupCleaning', e.target.checked)
-                      }
-                    >
-                      Cleaning completed
-                    </IonCheckbox>
+                    </label>
+                    <label className="flex items-center gap-2.5 label">
+                      <Field
+                        type="checkbox"
+                        name="checkupCleaning"
+                        className="checkbox"
+                      />
+                      Cleaning completed{' '}
+                    </label>
                   </div>
                 </div>
                 <div className="rounded-xl bg-blackLight p-2 flex flex-col gap-2">

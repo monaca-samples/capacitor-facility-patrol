@@ -50,7 +50,7 @@ export const Map = ({
               <IonIcon
                 icon={logOutOutline}
                 color="dark"
-                className="py-2 px-1.5"
+                className="py-2 px-1.5 text-black"
               />
             </IonButton>
           </IonButtons>

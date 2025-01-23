@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useMemo } from 'react'
 import { useHistory } from 'react-router'
-import mapboxgl, { Marker, Popup } from 'mapbox-gl'
+import mapboxgl from 'mapbox-gl'
 
 import { useAuthentication } from '@/hooks/use-authentication'
 import { useMapbox } from '@/hooks/use-mapbox'
@@ -53,7 +53,7 @@ export const MapContainer: FC = () => {
 
   return (
     <Map
-      userName={user.displayName}
+      userName={user?.displayName}
       logout={logoutAndRoute}
       loading={loading}
       setClickedLocation={setClickedLocation}

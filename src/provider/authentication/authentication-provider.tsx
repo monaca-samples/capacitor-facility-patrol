@@ -1,57 +1,49 @@
 import React, { ReactNode, useEffect, useState } from 'react'
 import {
   FirebaseAuthentication,
+  Persistence,
   User
 } from '@capacitor-firebase/authentication'
-import { getApp } from 'firebase/app'
-import {
-  getAuth,
-  indexedDBLocalPersistence,
-  initializeAuth,
-  signOut
-} from 'firebase/auth'
-import { Capacitor } from '@capacitor/core'
 
 import { AuthenticationContext } from './authentication-provider.context'
-import { AuthState } from '@/types/auth-state'
 
 export const AuthenticationProvider = ({
   children
 }: {
   children: ReactNode
 }) => {
-  const [user, setUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState(false)
+  const [user, setUser] = useState<User | null>(undefined)
+  const [loading, setLoading] = useState(true)
   const [errorMessage, setErrorMessage] = useState('')
-  const [authState, setAuthState] = useState(AuthState.PENDING)
 
   useEffect(() => {
     setInitialUser()
-    getFirebaseAuth().then(async () => {})
   }, [])
 
-  const getFirebaseAuth = async () => {
-    if (Capacitor.isNativePlatform()) {
-      return initializeAuth(getApp(), {
-        persistence: indexedDBLocalPersistence
-      })
-    } else {
-      return getAuth()
-    }
+  const setPersistence = async () => {
+    await FirebaseAuthentication.setPersistence({
+      persistence: Persistence.IndexedDbLocal
+    })
   }
 
   const setInitialUser = async () => {
-    setLoading(true)
-    await FirebaseAuthentication.addListener(
-      'authStateChange',
-      async result => {
-        if (result.user) {
-          setUser(result.user)
-          setAuthState(AuthState.AUTHENTICATED)
+    try {
+      setLoading(true)
+      await FirebaseAuthentication.addListener(
+        'authStateChange',
+        async result => {
+          if (result.user) {
+            setUser(result.user)
+          } else {
+            setUser(null)
+          }
         }
-      }
-    )
-    setLoading(false)
+      )
+    } catch (error) {
+      console.error('Error fetching initial user:', error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const login = async (
@@ -62,25 +54,22 @@ export const AuthenticationProvider = ({
     try {
       setLoading(true)
 
+      if (rememberMe) {
+        await setPersistence()
+      }
+
       const result = await FirebaseAuthentication.signInWithEmailAndPassword({
         email,
         password
       })
 
       if (result.user) {
-        console.log(result.user)
-        // if (rememberMe) {
-        //   await getFirebaseAuth()
-        // }
         setUser(result.user)
-        setAuthState(AuthState.AUTHENTICATED)
         return result.user
       }
-      setAuthState(AuthState.UNAUTHORIZED)
       return null
     } catch (error) {
       setErrorMessage(error.message)
-      setAuthState(AuthState.UNAUTHORIZED)
       return null
     } finally {
       setLoading(false)
@@ -99,11 +88,9 @@ export const AuthenticationProvider = ({
       if (result.user) {
         await FirebaseAuthentication.updateProfile({ displayName: name })
         setUser(result.user)
-        setAuthState(AuthState.AUTHENTICATED)
       }
     } catch (error) {
       setErrorMessage(error.message)
-      setAuthState(AuthState.UNAUTHORIZED)
     } finally {
       setLoading(false)
     }
@@ -111,20 +98,20 @@ export const AuthenticationProvider = ({
 
   const logout = async () => {
     setLoading(true)
-    // 1. Sign out on the native layer
-    await FirebaseAuthentication.signOut()
-    // 1. Sign out on the web layer
-    const auth = getAuth()
-    await signOut(auth)
-    setAuthState(AuthState.UNAUTHORIZED)
+    try {
+      await FirebaseAuthentication.signOut()
 
-    setUser(null)
-    setLoading(false)
+      setUser(undefined)
+    } catch (error) {
+      console.error('Error during logout:', error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
     <AuthenticationContext.Provider
-      value={{ authState, login, signUp, user, loading, errorMessage, logout }}
+      value={{ login, signUp, user, loading, errorMessage, logout }}
     >
       {children}
     </AuthenticationContext.Provider>

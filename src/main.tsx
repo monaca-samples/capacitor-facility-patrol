@@ -9,7 +9,7 @@ import { firebaseConfig } from './config/firebase-config'
 const container = document.getElementById('root')
 const root = createRoot(container!)
 
-export const app = initializeApp(firebaseConfig)
+initializeApp(firebaseConfig)
 
 defineCustomElements(window).then()
 

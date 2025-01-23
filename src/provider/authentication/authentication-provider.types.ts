@@ -1,5 +1,4 @@
 import { User } from '@capacitor-firebase/authentication'
-import { AuthState } from '@/types/auth-state'
 
 export interface AuthenticationContextType {
   login: (
@@ -9,8 +8,7 @@ export interface AuthenticationContextType {
   ) => Promise<User | null>
   signUp: (email: string, password: string, name: string) => Promise<void>
   logout: () => Promise<void>
-  user: User
+  user?: User | null
   loading: boolean
-  authState: AuthState
   errorMessage?: string
 }

@@ -35,7 +35,6 @@ export const FacilityDetails = ({
   setEnableTitleEdit,
   submitForm
 }: FacilityDetailsProps) => {
-  console.log(location)
   return (
     <IonPage>
       <LoadingOverlay isLoading={isLoading} />

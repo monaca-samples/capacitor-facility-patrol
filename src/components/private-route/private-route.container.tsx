@@ -1,21 +1,19 @@
 import React, { FC } from 'react'
 import { RouteProps } from 'react-router'
+import { IonContent, IonPage } from '@ionic/react'
+import { Redirect, Route } from 'react-router-dom'
 
 import { useAuthentication } from '@/hooks/use-authentication'
-
-import { AuthState } from '@/types/auth-state'
-import { IonContent, IonPage } from '@ionic/react'
 import { LoadingOverlay } from '@/components/loading-overlay'
-import { Redirect } from 'react-router-dom'
 
-export const PrivateRouteContainer: FC<RouteProps> = ({ component }) => {
-  const { authState, loading } = useAuthentication()
-  if (!component) {
-    return <></>
-  }
+export const PrivateRouteContainer: FC<RouteProps> = ({
+  component: Component,
+  ...rest
+}) => {
+  const { user, loading } = useAuthentication()
 
-  if (loading) {
-    // While waiting for login resolution, render a loading indicator
+  // Show loading screen during authentication resolution
+  if (loading || user === undefined) {
     return (
       <IonPage>
         <IonContent fullscreen>
@@ -25,9 +23,9 @@ export const PrivateRouteContainer: FC<RouteProps> = ({ component }) => {
     )
   }
 
-  return authState === AuthState.AUTHENTICATED ? (
-    React.createElement(component)
-  ) : (
+  return user === null ? (
     <Redirect to="/login" />
+  ) : (
+    <Route {...rest} render={props => <Component {...props} />} />
   )
 }

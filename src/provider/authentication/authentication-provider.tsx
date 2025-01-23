@@ -20,12 +20,6 @@ export const AuthenticationProvider = ({
     setInitialUser()
   }, [])
 
-  const setPersistence = async () => {
-    await FirebaseAuthentication.setPersistence({
-      persistence: Persistence.IndexedDbLocal
-    })
-  }
-
   const setInitialUser = async () => {
     try {
       setLoading(true)
@@ -48,16 +42,10 @@ export const AuthenticationProvider = ({
 
   const login = async (
     email: string,
-    password: string,
-    rememberMe: boolean
+    password: string
   ): Promise<User | null> => {
     try {
       setLoading(true)
-
-      if (rememberMe) {
-        await setPersistence()
-      }
-
       const result = await FirebaseAuthentication.signInWithEmailAndPassword({
         email,
         password

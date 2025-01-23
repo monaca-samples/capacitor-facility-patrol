@@ -130,8 +130,7 @@ export const FacilityDetails = ({
                 >
                   <IonIcon
                     icon={cameraOutline}
-                    color="dark"
-                    className="p-2 rounded-full bg-greenLight shadow"
+                    className="p-2 rounded-full bg-greenLight shadow text-black"
                   />
                   Add photos
                 </button>

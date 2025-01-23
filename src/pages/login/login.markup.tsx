@@ -13,13 +13,13 @@ export const Login = ({ login, loading, errorMessage }: LoginProps) => {
         <LoadingOverlay isLoading={loading} />
         <div className="h-full w-full flex items-center justify-center">
           <Formik
-            initialValues={{ email: '', password: '', rememberMe: false }}
+            initialValues={{ email: '', password: '' }}
             validationSchema={loginSchema}
             onSubmit={(
-              values: { email: string; password: string; rememberMe: boolean },
+              values: { email: string; password: string },
               { setSubmitting }
             ) => {
-              login(values.email, values.password, values.rememberMe).then(() =>
+              login(values.email, values.password).then(() =>
                 setSubmitting(false)
               )
             }}
@@ -59,15 +59,6 @@ export const Login = ({ login, loading, errorMessage }: LoginProps) => {
                       component="div"
                     />
                   </div>
-
-                  <label className="flex items-center gap-2.5 label">
-                    <Field
-                      type="checkbox"
-                      name="rememberMe"
-                      className="checkbox"
-                    />
-                    Remember me
-                  </label>
                   {errorMessage && (
                     <div className="error-message">{errorMessage}</div>
                   )}

@@ -12,6 +12,8 @@ export const PrivateRouteContainer: FC<RouteProps> = ({
 }) => {
   const { user, loading } = useAuthentication()
 
+  console.log(user, loading)
+
   // Show loading screen during authentication resolution
   if (loading || user === undefined) {
     return (

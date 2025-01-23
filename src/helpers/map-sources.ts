@@ -13,13 +13,14 @@ export const getLocationSource = (locations: FacilityLocation[]): any => {
         },
         properties: {
           icon: 'rocket',
+          id: location.id,
           description: `
                        <div class="flex flex-col items-center">
                           <p class="font-poppins font-semibold">${location.title}</p>
                           <p class="w-full border-t border-gray-400 flex flex-col items-center mt-1">
-                            <a href="/facility-details/${location.id}" class="font-poppins text-greenDefault mt-1">
+                            <button id="popup-button" class="font-poppins text-greenDefault mt-1">
                               Edit
-                            </a>
+                            </button>
                           </p>
                         </div>`
         }

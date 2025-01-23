@@ -11,7 +11,8 @@ const LOCATION_SOURCE = 'facility-locations'
 export const getMap = async (
   containerId: string,
   locations: FacilityLocation[] | null,
-  onClickCallback: (params: { lng: number; lat: number }) => void
+  onClickCallback: (params: { lng: number; lat: number }) => void,
+  routeToLocation: (id: string) => void
 ) => {
   const map = new mapboxgl.Map({
     container: containerId,
@@ -31,7 +32,7 @@ export const getMap = async (
   map.on('load', function () {
     map.resize() // Needed since the map will not size correctly on first render
 
-    setupOnLoad(map, locations, onClickCallback)
+    setupOnLoad(map, locations, onClickCallback, routeToLocation)
   })
   return map
 }
@@ -39,7 +40,8 @@ export const getMap = async (
 export const setupOnClickListeners = (
   map: mapboxgl.Map,
   locations: FacilityLocation[],
-  onClickCallback: (params: { lng: number; lat: number }) => void
+  onClickCallback: (params: { lng: number; lat: number }) => void,
+  routeToLocation: (id: string) => void
 ) => {
   if (map) {
     map.on('click', async (event: any) => {
@@ -61,6 +63,15 @@ export const setupOnClickListeners = (
         new mapboxgl.Popup()
           .setLngLat(coordinates)
           .setHTML(features[0].properties.description)
+          .on('open', e => {
+            console.log('popup open', e)
+            const button = document.getElementById('popup-button')
+            if (button) {
+              button.addEventListener('click', () => {
+                routeToLocation(features[0].properties.id) // Call the passed method with the location ID
+              })
+            }
+          })
           .addTo(map)
       } else {
         // Click on rest of the map
@@ -74,7 +85,8 @@ export const setupOnClickListeners = (
 const setupOnLoad = (
   map: mapboxgl.Map,
   firebaseLocations: FacilityLocation[],
-  onClickCallback: (params: { lng: number; lat: number }) => void
+  onClickCallback: (params: { lng: number; lat: number }) => void,
+  routeToLocation: (id: string) => void
 ) => {
   if (!map.getSource(LOCATION_SOURCE)) {
     map.addSource(LOCATION_SOURCE, getLocationSource(firebaseLocations))
@@ -90,6 +102,11 @@ const setupOnLoad = (
         }
       })
     })
-    setupOnClickListeners(map, firebaseLocations, onClickCallback)
+    setupOnClickListeners(
+      map,
+      firebaseLocations,
+      onClickCallback,
+      routeToLocation
+    )
   }
 }

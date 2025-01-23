@@ -10,7 +10,7 @@
     }
 
     .textarea {
-        @apply font-poppins rounded-xl border border-gray-200 px-5 py-3 font-light text-black w-full;
+        @apply font-poppins rounded-xl border border-gray-200 px-5 py-3 font-light text-black w-full bg-white;
         @apply placeholder:text-blackLight placeholder:font-light;
         @apply focus:outline-none focus:ring-greenMedium focus:ring-1;
     }

@@ -8,6 +8,7 @@ import {
   getLocationsFromFirebase,
   saveLocationToFirebase
 } from '@/helpers/firebase-storage'
+import { useHistory } from 'react-router'
 
 const LOCATION_SOURCE = 'facility-locations'
 
@@ -22,6 +23,7 @@ export const useMapbox = (containerId: string) => {
   } | null>(null)
 
   const [isLoading, setIsLoading] = useState(true)
+  const history = useHistory()
 
   // Setup map object, layers and click listeners
   useEffect(() => {
@@ -45,13 +47,18 @@ export const useMapbox = (containerId: string) => {
       mapRef.current = await getMap(
         containerId,
         firebaseLocations,
-        setClickedLocation
+        setClickedLocation,
+        routeToDetails
       )
     } catch (err) {
       console.error(err)
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const routeToDetails = (id: string) => {
+    history.push(`/facility-details/${id}`)
   }
 
   const saveLocation = async (location: FacilityLocation) => {
@@ -80,7 +87,12 @@ export const useMapbox = (containerId: string) => {
       })
     }
 
-    setupOnClickListeners(mapRef.current, newLocations, setClickedLocation)
+    setupOnClickListeners(
+      mapRef.current,
+      newLocations,
+      setClickedLocation,
+      routeToDetails
+    )
   }
 
   return {

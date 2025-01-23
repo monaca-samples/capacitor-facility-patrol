@@ -1,0 +1,10 @@
+import React, { ReactNode } from 'react'
+
+import { {{pascalCase name}}Context } from './{{dashCase name}}-provider.context'
+
+export const {{pascalCase name}}Provider = ({ children }: { children: ReactNode }) => {
+  return (
+      <{{pascalCase name}}Context.Provider value={}>
+        {children}
+      </{{pascalCase name}}Context.Provider>
+)}

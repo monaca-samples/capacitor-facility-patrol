@@ -1,0 +1,49 @@
+:root {
+    --ion-color-black: #0D0D0D;
+    --ion-color-white: #FFFFFF;
+    --ion-color-green-dark: #34592A;
+    --ion-color-green-default: #66A649;
+    --ion-color-green-medium: #7AD95F;
+    --ion-color-green-light: #88F26B;
+
+    --ion-background-color: linear-gradient(180deg, #0D0D0D 0%, #737373 100%);
+    --ion-text-color: var(--ion-color-white);
+    --ion-toolbar-background: linear-gradient(180deg, #737373 0%, #0D0D0D 100%);
+
+    --font-family-base: 'Poppins', sans-serif;
+
+    --ion-color-primary: var(--ion-color-green-light);
+    --ion-color-secondary: var(--ion-color-green-default);
+
+
+    ion-content {
+        --ion-background-color: linear-gradient(180deg, #0D0D0D 0%, #737373 100%);
+    }
+
+    ion-toolbar {
+        padding: 10px;
+    }
+
+    .action-sheet-button.sc-ion-action-sheet-ios {
+        color: var(--ion-color-green-default);
+    }
+
+    .mapboxgl-popup-content {
+        color: var(--ion-color-black);
+    }
+
+    ion-checkbox {
+        --checkbox-background-checked: var(--ion-color-green-default);
+    }
+
+    ion-checkbox::part(container) {
+        border-radius: 6px;
+        border: 1px solid #ffff;
+        background: transparent;
+    }
+}
+
+
+
+
+

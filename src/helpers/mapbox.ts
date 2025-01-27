@@ -63,8 +63,7 @@ export const setupOnClickListeners = (
         new mapboxgl.Popup()
           .setLngLat(coordinates)
           .setHTML(features[0].properties.description)
-          .on('open', e => {
-            console.log('popup open', e)
+          .on('open', _e => {
             const button = document.getElementById('popup-button')
             if (button) {
               button.addEventListener('click', () => {

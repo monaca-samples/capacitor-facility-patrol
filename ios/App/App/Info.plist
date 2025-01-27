@@ -53,8 +53,6 @@
     <string>To store images</string>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>We need your location to ensure better functionality of the app.</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>We need your location even when the app is in the background.</string>
     <key>NSLocationTemporaryUsageDescriptionDictionary</key>
     <dict>
        <key>CustomKey</key>

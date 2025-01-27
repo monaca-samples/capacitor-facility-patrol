@@ -5,7 +5,6 @@ import {
   IonActionSheet,
   IonButton,
   IonButtons,
-  IonCheckbox,
   IonContent,
   IonHeader,
   IonIcon,
@@ -58,7 +57,14 @@ export const FacilityDetails = ({
             checkupCleaning: location?.checkupCleaning
           }}
           onSubmit={async (values, { setSubmitting }) => {
-            await submitForm(values)
+            await submitForm({
+              title: values.title,
+              comment: values.comment,
+              photos: location?.photos ?? [],
+              checkupBolts: location.checkupBolts ?? false,
+              checkupMeasurement: location.checkupMeasurement ?? false,
+              checkupCleaning: location.checkupCleaning ?? false
+            })
             setSubmitting(false)
           }}
           enableReinitialize
